@@ -41,15 +41,15 @@ it('can create a channel', function (): void {
         'name' => 'general',
     ]);
 
-    $response->assertRedirectBack()
+    $channels = $workspace->channels;
+
+    $response->assertRedirectToRoute('channel.show', [$workspace, $channels->first()])
         ->assertSessionHas(SessionKey::FLASH_DATA, [
             'toast' => [
                 'type' => 'success',
                 'message' => __('Channel created.'),
             ],
         ]);
-
-    $channels = $workspace->channels;
 
     expect($channels->count())->toBe(1)
         ->and($channels->first()->name)->toBe('general')
@@ -151,7 +151,7 @@ it('can delete a channel when others remain', function (): void {
 
     $response = $this->actingAs($user)->delete(route('channel.destroy', [$workspace, $channel]));
 
-    $response->assertRedirectBack()
+    $response->assertRedirectToRoute('workspace.show', $workspace)
         ->assertSessionHas(SessionKey::FLASH_DATA, [
             'toast' => [
                 'type' => 'success',

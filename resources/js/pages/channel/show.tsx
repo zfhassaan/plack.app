@@ -1,4 +1,6 @@
 import { Head } from '@inertiajs/react';
+import CreateChannelDialog from '@/components/create-channel-dialog';
+import DeleteChannelDialog from '@/components/delete-channel-dialog';
 import EditChannelDialog from '@/components/edit-channel-dialog';
 import WorkspaceLayout from '@/layouts/workspace-layout';
 
@@ -40,7 +42,7 @@ export default function ChannelShow({
             <Head title={channel.name} />
 
             {/* header */}
-            <header className="flex items-baseline justify-between gap-3 border-b border-line px-6 py-[15px]">
+            <header className="flex items-center justify-between gap-3 border-b border-line px-6 py-[15px]">
                 <div className="flex items-baseline gap-3">
                     <span className="text-[15px] font-semibold text-amber">
                         # {channel.name}
@@ -50,10 +52,17 @@ export default function ChannelShow({
                     </span>
                 </div>
 
-                <EditChannelDialog
-                    workspaceSlug={workspace.slug}
-                    channel={channel}
-                />
+                <div className="flex items-center gap-1">
+                    <CreateChannelDialog workspaceSlug={workspace.slug} />
+                    <EditChannelDialog
+                        workspaceSlug={workspace.slug}
+                        channel={channel}
+                    />
+                    <DeleteChannelDialog
+                        workspaceSlug={workspace.slug}
+                        channel={channel}
+                    />
+                </div>
             </header>
 
             {/* message log — bottom-anchored */}
